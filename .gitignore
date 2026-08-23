@@ -32,6 +32,8 @@ playwright-report/
 out/
 build
 dist
+*.tsbuildinfo
+.tools/
 
 # IDEs and editors
 /.idea

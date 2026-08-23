@@ -1,7 +1,10 @@
 {
   "extends": "@repo/typescript-config/nestjs.json",
   "compilerOptions": {
-    "baseUrl": "./",
+    "paths": {
+      "*": ["./*"],
+      "@src/*": ["./src/*"]
+    },
     "outDir": "./dist",
     "strictNullChecks": true
   }

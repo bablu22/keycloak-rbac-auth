@@ -1,0 +1,377 @@
+{
+  "realm": "erp-realm",
+  "enabled": true,
+  "displayName": "ERP Realm",
+  "registrationAllowed": false,
+  "registrationEmailAsUsername": true,
+  "rememberMe": true,
+  "verifyEmail": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "sslRequired": "external",
+  "smtpServer": {
+    "host": "mailpit",
+    "port": "1025",
+    "from": "noreply@erp.local",
+    "fromDisplayName": "LedgerOS",
+    "replyTo": "noreply@erp.local",
+    "ssl": "false",
+    "starttls": "false",
+    "auth": "false"
+  },
+  "roles": {
+    "realm": [
+      {
+        "name": "super_admin",
+        "description": "Full system access"
+      },
+      {
+        "name": "admin",
+        "description": "ERP administrator"
+      },
+      {
+        "name": "manager",
+        "description": "Department manager"
+      },
+      {
+        "name": "accountant",
+        "description": "Finance / accounting"
+      },
+      {
+        "name": "hr",
+        "description": "Human resources"
+      },
+      {
+        "name": "sales",
+        "description": "Sales team"
+      },
+      {
+        "name": "warehouse",
+        "description": "Inventory / warehouse"
+      },
+      {
+        "name": "employee",
+        "description": "Base employee access"
+      }
+    ],
+    "client": {
+      "nest-api": [
+        { "name": "invoice_read", "description": "View invoices" },
+        { "name": "invoice_create", "description": "Create invoices" },
+        { "name": "invoice_approve", "description": "Approve invoices" },
+        { "name": "invoice_delete", "description": "Delete invoices" },
+        { "name": "payroll_view", "description": "View payroll" },
+        { "name": "payroll_run", "description": "Run payroll" },
+        { "name": "inventory_view", "description": "View inventory" },
+        { "name": "inventory_adjust", "description": "Adjust stock" },
+        { "name": "user_read", "description": "View users" },
+        { "name": "user_manage", "description": "Manage users" },
+        { "name": "report_finance", "description": "Finance reports" },
+        { "name": "report_sales", "description": "Sales reports" }
+      ]
+    }
+  },
+  "groups": [
+    {
+      "name": "Finance",
+      "path": "/Finance",
+      "realmRoles": ["accountant", "employee"],
+      "clientRoles": {
+        "nest-api": [
+          "invoice_read",
+          "invoice_create",
+          "report_finance"
+        ]
+      }
+    },
+    {
+      "name": "Sales",
+      "path": "/Sales",
+      "realmRoles": ["sales", "employee"],
+      "clientRoles": {
+        "nest-api": ["invoice_read", "report_sales"]
+      }
+    },
+    {
+      "name": "HR",
+      "path": "/HR",
+      "realmRoles": ["hr", "employee"],
+      "clientRoles": {
+        "nest-api": ["user_read", "user_manage", "payroll_view"]
+      }
+    },
+    {
+      "name": "Warehouse",
+      "path": "/Warehouse",
+      "realmRoles": ["warehouse", "employee"],
+      "clientRoles": {
+        "nest-api": ["inventory_view", "inventory_adjust"]
+      }
+    },
+    {
+      "name": "Management",
+      "path": "/Management",
+      "realmRoles": ["manager", "employee"],
+      "clientRoles": {
+        "nest-api": [
+          "invoice_read",
+          "invoice_approve",
+          "payroll_view",
+          "inventory_view",
+          "user_read",
+          "report_finance",
+          "report_sales"
+        ]
+      }
+    },
+    {
+      "name": "Admins",
+      "path": "/Admins",
+      "realmRoles": ["admin", "employee"],
+      "clientRoles": {
+        "nest-api": [
+          "invoice_read",
+          "invoice_create",
+          "invoice_approve",
+          "invoice_delete",
+          "payroll_view",
+          "payroll_run",
+          "inventory_view",
+          "inventory_adjust",
+          "user_read",
+          "user_manage",
+          "report_finance",
+          "report_sales"
+        ]
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "admin@erp.local",
+      "email": "admin@erp.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Ada",
+      "lastName": "Admin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Admins"]
+    },
+    {
+      "username": "alice@erp.local",
+      "email": "alice@erp.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Alice",
+      "lastName": "Accountant",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Finance"]
+    },
+    {
+      "username": "bob@erp.local",
+      "email": "bob@erp.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Bob",
+      "lastName": "Seller",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Sales"]
+    },
+    {
+      "username": "carol@erp.local",
+      "email": "carol@erp.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Carol",
+      "lastName": "People",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "groups": ["/HR"]
+    },
+    {
+      "username": "dave@erp.local",
+      "email": "dave@erp.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Dave",
+      "lastName": "Dock",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Warehouse"]
+    },
+    {
+      "username": "erin@erp.local",
+      "email": "erin@erp.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Erin",
+      "lastName": "Manager",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Management"]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "react-client",
+      "name": "LedgerOS Web",
+      "enabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "frontchannelLogout": true,
+      "redirectUris": [
+        "http://localhost:5173/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:5173/*"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "web-bff",
+      "name": "LedgerOS Web BFF",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "web-bff-secret-change-me",
+      "protocol": "openid-connect",
+      "bearerOnly": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "frontchannelLogout": true,
+      "redirectUris": [
+        "http://localhost:3000/auth/callback"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:5173/*",
+        "oauth2.device.authorization.grant.enabled": "false"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "nest-api",
+      "name": "LedgerOS API",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "nest-api-secret-change-me",
+      "protocol": "openid-connect",
+      "bearerOnly": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "fullScopeAllowed": true
+    },
+    {
+      "clientId": "mobile-app",
+      "name": "LedgerOS Mobile (future)",
+      "enabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "com.ledgeros.app://callback"
+      ],
+      "webOrigins": [],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    }
+  ],
+  "browserSecurityHeaders": {
+    "contentSecurityPolicyReportOnly": "",
+    "xContentTypeOptions": "nosniff",
+    "referrerPolicy": "no-referrer",
+    "xRobotsTag": "none",
+    "xFrameOptions": "SAMEORIGIN",
+    "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
+    "xXSSProtection": "1; mode=block",
+    "strictTransportSecurity": "max-age=31536000; includeSubDomains"
+  }
+}
